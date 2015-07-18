@@ -21,11 +21,6 @@ pollutantmean <- function(directory, pollutant, id = 1:332) {
   
 }
 
-source("http://d396qusza40orc.cloudfront.net/rprog%2Fscripts%2Fsubmitscript1.R")
-submit()
-
-
-
 # pollutantmean("specdata", "sulfate", 1:10)  ## Should give 4.064
 # pollutantmean("specdata", "nitrate", 70:72) ## Should give 1.706 
 # pollutantmean("specdata", "nitrate", 23)    ## Should give 1.281 
