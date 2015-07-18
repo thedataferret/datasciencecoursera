@@ -1,0 +1,21 @@
+# getwd()
+# setwd("C:/Users/Perky Llama/Documents/R/datasciencecoursera")
+
+complete <- function(directory, id = 1:332) {
+  
+  files <- list.files(path = "C:/Users/Perky Llama/Documents/R/datasciencecoursera/specdata", full.names = TRUE)  ## this is me making a list of files - files[1] will be site #1
+  
+  nobs <- vector(mode="numeric", length=length(id))  ## this is an empty vector for data, as long as the list of ids
+  slot <- 1                                          ## making a slot to force the loop to start in the first vector element
+  
+  for (i in id) {                                   ## here's the for loop, iterating through IDs
+    mydata = read.csv(files[i], header = TRUE)      ## make a dataframe, read the csv into it
+    nobs[slot] <- sum(complete.cases(mydata))       ## post the first nobs slot with the sum of complete cases in the dataframe
+    slot <- slot + 1
+  }
+  
+  df <- data.frame(id, nobs)                        ## making a new dataframe with just ids and their nobs
+  df                                                ## returning that dataframe
+  
+}
+
