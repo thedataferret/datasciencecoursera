@@ -1,0 +1,52 @@
+setwd("C:/Users/Perky Llama/Documents/R/datasciencecoursera/")
+
+#------------------ Complete function -----------------------
+
+complete <- function(directory, id = 1:332) {
+  
+  files <- list.files(path = "C:/Users/Perky Llama/Documents/R/datasciencecoursera/specdata", full.names = TRUE)  ## this is me making a list of files - files[1] will be site #1
+  
+  nobs <- vector(mode="numeric", length=length(id))  ## this is an empty vector for data, as long as the list of ids
+  slot <- 1                                          ## making a slot to force the loop to start in the first vector element
+  
+  for (i in id) {                                   ## here's the for loop, iterating through IDs
+    mydata = read.csv(files[i], header = TRUE)      ## make a dataframe, read the csv into it
+    nobs[slot] <- sum(complete.cases(mydata))       ## post the first nobs slot with the sum of complete cases in the dataframe
+    slot <- slot + 1
+  }
+  
+  df <- data.frame(id, nobs)                        ## making a new dataframe with just ids and their nobs
+  df                                                ## returning that dataframe
+  
+}
+
+
+#------------ Corr function -----------------------------
+
+
+
+corr <- function(directory, threshold = 0) {
+
+  nobs_table <- complete(directory, id = 1:332)    ## using my handy 'complete' formula to spit out a table with all files and their complete records count
+  data_vector <- numeric()          ## creating empty numeric vector to hold all the datapoints (correlations)
+  files <- list.files(path = "C:/Users/Perky Llama/Documents/R/datasciencecoursera/specdata", full.names = TRUE)
+  
+  thresholded_df <- subset(nobs_table, nobs > threshold)   ## making a subset of the nobs table where the complete cases were above the threshold.
+  
+  id_vector <- thresholded_df$id     ## making a list of files (with enough complete cases) to iterate through, making corr calculations
+  
+  for (i in id_vector) {          ## note that this runs throught the VALUES in id_vector, not the index of id_vector
+    
+    quick_df <- data.frame(read.csv(files[i], header = TRUE))   ## starting the for loop, to go through ID files, and read them
+    s_vector <- as.numeric(quick_df[,2])   # making it a numeric vector so that the precious correlation formula works.
+    n_vector <- as.numeric(quick_df[,3])   # ditto
+    correlation <- cor(s_vector, n_vector, use = "complete.obs")    ## performing correlation on the quick matrix, using only complete observations
+    data_vector <- c(data_vector, correlation)     ## stitching the fresh new correlation result to a growing list of correlations 
+    
+  }
+  data_vector
+}
+
+#-------------------------------------
+
+
