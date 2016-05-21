@@ -1,0 +1,30 @@
+# This package is awesome.
+# install.packages('lubridate')
+library(lubridate)
+
+# loading the data
+df_all <- read.csv2("household_power_consumption.txt")
+
+# getting the subset of data - 1st and 2nd Feb 2007
+df_sub1 <- subset(df_all, dmy(df_all$Date) == "2007-02-01")
+df_sub2 <- subset(df_all, dmy(df_all$Date) == "2007-02-02")
+
+df_sub <- rbind(df_sub1,df_sub2)
+
+# Tidying up
+rm(df_sub1, df_sub2, df_all)
+
+# wizardry with the datetime - creating a separate date vector
+datetime <- strptime(paste(df_sub$Date,df_sub$Time,sep = " "), "%d/%m/%Y %H:%M:%S")
+
+# creating a separate values vector (coercing to numeric, since it was factor in the df)
+GlobalActivePower <- as.numeric(as.character(df_sub$Global_active_power))
+
+# and now we plot - type is 'l' for line chart
+plot(datetime, GlobalActivePower,type = "l", ylab = "Global Active Power",xlab = "Global Active Power (kilowatts)")
+
+# copy to PNG device and close off
+dev.copy(png,"plot2.png")
+dev.off()
+
+
