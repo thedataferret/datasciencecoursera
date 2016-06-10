@@ -36,11 +36,13 @@ plot(chart_data,
      ylab = "Total Emissions (tons)",
      xlab = "Year of Survey",
      pch = 19,
-     cex = 1.5)
+     cex = 1.5,
+     xaxt = 'n')
+axis(1, tck = 1, lty = 3, lwd = 1, at = seq(1999, 2008, by = 3), las=1)
 title("Decline in Total PM25 Emissions", sub = "Source: National Emissions Inventory",
       cex.main = 2,   font.main= 2,
       cex.sub = 0.75, font.sub = 3, col.sub = "red")
-lines(chart_data, lty = 3, lwd = 1)
+# lines(chart_data, lty = 3, lwd = 1)
 abline(trend, col = "red", lty = 3, lwd = 2)
 options(scipen=10)
 
