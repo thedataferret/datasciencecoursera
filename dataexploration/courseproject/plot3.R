@@ -63,10 +63,17 @@ for (i in survey_years) {
 
 
 # Create a dataframe for what we want to use in the chart
-point_chart_data <- data.frame(cbind(survey_years, point_PM25))
-nonpoint_chart_data <- data.frame(cbind(survey_years, nonpoint_PM25))
-onroad_chart_data <- data.frame(cbind(survey_years, onroad_PM25))
-nonroad_chart_data <- data.frame(cbind(survey_years, nonroad_PM25))
+point_chart_data <- data.frame(cbind(survey_years, point_PM25, rep("point", times = n)))
+  colnames(point_chart_data) <- c("survey_years", "PM25", "type")
+nonpoint_chart_data <- data.frame(cbind(survey_years, nonpoint_PM25, rep("nonpoint", times = n)))
+  colnames(nonpoint_chart_data) <- c("survey_years", "PM25", "type")
+onroad_chart_data <- data.frame(cbind(survey_years, onroad_PM25, rep("onroad", times = n)))
+  colnames(onroad_chart_data) <- c("survey_years", "PM25", "type")
+nonroad_chart_data <- data.frame(cbind(survey_years, nonroad_PM25, rep("nonroad", times = n)))
+ colnames(nonroad_chart_data) <- c("survey_years", "PM25", "type")
+
+chart_data <- rbind(point_chart_data, nonpoint_chart_data, onroad_chart_data, nonroad_chart_data)
+chart_data$PM25 <- as.numeric(chart_data$PM25)
 
 # Tidy up
 rm(n, i, survey_years, NEI, 
@@ -75,24 +82,18 @@ rm(n, i, survey_years, NEI,
 
 
 
-
+#rep("point", times = 5)
 
 # Start Plotting
 # -----------------------------------------------
 require(ggplot2, grid)
-# Plot 1: Point Emissions
 
-# P1 <- ggplot(point_chart_data, aes(x = survey_years, y = point_PM25))
-p1 <- qplot(survey_years, point_PM25, data = point_chart_data, geom = c("point", "smooth"))
-p2 <- qplot(survey_years, nonpoint_PM25, data = nonpoint_chart_data, geom = c("point", "smooth"))
-p3 <- qplot(survey_years, onroad_PM25, data = onroad_chart_data, geom = c("point", "smooth"))
-p4 <- qplot(survey_years, nonroad_PM25, data = nonroad_chart_data, geom = c("point", "smooth"))
+qplot(survey_years, PM25, data = chart_data, facets = .~type) +
+  geom_bar(stat = "identity")
 
-library(grid)
-multiplot(p1, p2, p3, p4, cols=2)
 
 
 # Print the chart to PNG
-dev.copy(png, file="plot3.png", width=480, height=480)
+dev.copy(png, file="plot3.png", width=900, height=480)
 dev.off()
 # -----------------------------------------------
