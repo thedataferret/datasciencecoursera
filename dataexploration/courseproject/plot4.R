@@ -50,6 +50,6 @@ qplot(survey_years, PM25, data = chart_data) +
 
 
 # Print the chart to PNG
-dev.copy(png, file="plot4.png", width=900, height=480)
+dev.copy(png, file="plot4.png", width=900, height=600)
 dev.off()
 # -----------------------------------------------
