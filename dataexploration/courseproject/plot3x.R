@@ -10,6 +10,29 @@ assign("NEI", readRDS("summarySCC_PM25.rds"), envir = .GlobalEnv)
 
 #Get NEI data just for Baltimore
 df_all <- NEI[NEI$fips == '24510',]
+df <- subset(df_all, select = c(type, year, Emissions))
+df$type <- as.factor(df$type)
+df$year <- as.factor(df$year)
+
+#aggregate method
+
+table(df)
+
+attach(df)
+df_long <- aggregate(df, by=list(year), 
+                    FUN = sum, na.rm=TRUE)
+df_long
+
+detach(df)
+
+
+
+
+
+
+
+
+
   
 survey_years <- c(1999, 2002, 2005, 2008)
 PM25 <- numeric()
@@ -18,7 +41,7 @@ Year <- integer()
 n <- 1
 
 
-sumTypeYear <- function(mytype) {
+myFunction <- function(mytype) {
   df <- df_all[df_all$type == mytype,]
   for (i in survey_years) {
     print(paste("the year is ", i))
@@ -34,7 +57,7 @@ sumTypeYear <- function(mytype) {
 }
 
 
-sumTypeYear("POINT")
+myFunction("POINT")
 
 
 df <- df_all[df_all$type == "POINT",]

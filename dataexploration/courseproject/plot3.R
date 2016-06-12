@@ -64,16 +64,16 @@ for (i in survey_years) {
 
 # Create a dataframe for what we want to use in the chart
 point_chart_data <- data.frame(cbind(survey_years, point_PM25, rep("point", times = n)))
-  colnames(point_chart_data) <- c("survey_years", "PM25", "type")
+  colnames(point_chart_data) <- c("survey_years", "PM25_emissions", "type")
 nonpoint_chart_data <- data.frame(cbind(survey_years, nonpoint_PM25, rep("nonpoint", times = n)))
-  colnames(nonpoint_chart_data) <- c("survey_years", "PM25", "type")
+  colnames(nonpoint_chart_data) <- c("survey_years", "PM25_emissions", "type")
 onroad_chart_data <- data.frame(cbind(survey_years, onroad_PM25, rep("onroad", times = n)))
-  colnames(onroad_chart_data) <- c("survey_years", "PM25", "type")
+  colnames(onroad_chart_data) <- c("survey_years", "PM25_emissions", "type")
 nonroad_chart_data <- data.frame(cbind(survey_years, nonroad_PM25, rep("nonroad", times = n)))
- colnames(nonroad_chart_data) <- c("survey_years", "PM25", "type")
+ colnames(nonroad_chart_data) <- c("survey_years", "PM25_emissions", "type")
 
 chart_data <- rbind(point_chart_data, nonpoint_chart_data, onroad_chart_data, nonroad_chart_data)
-chart_data$PM25 <- as.numeric(chart_data$PM25)
+chart_data$PM25_emissions <- as.numeric(chart_data$PM25_emissions)
 
 # Tidy up
 rm(n, i, survey_years, NEI, 
@@ -82,14 +82,14 @@ rm(n, i, survey_years, NEI,
 
 
 
-#rep("point", times = 5)
-
 # Start Plotting
 # -----------------------------------------------
 require(ggplot2, grid)
 
-qplot(survey_years, PM25, data = chart_data, facets = .~type) +
+p <- qplot(survey_years, PM25_emissions, data = chart_data, facets = .~type) +
   geom_bar(stat = "identity")
+
+p + labs(title = "Baltimore City PM25 Emissions by Type")
 
 
 
