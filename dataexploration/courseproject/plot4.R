@@ -45,7 +45,7 @@ require(ggplot2)
 options(scipen = 999)
 qplot(survey_years, PM25, data = chart_data) +
   geom_bar(stat = "identity") +
-  labs(title = "PM25 Emissions from Coal Combusions Sources", xlab = "Survey Year", ylab = "PM25 Emissions (tons)")
+  labs(title = "PM25 Emissions from Coal Combustion Sources", xlab = "Survey Year", ylab = "PM25 Emissions (tons)")
 
 
 
