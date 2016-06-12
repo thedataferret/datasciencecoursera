@@ -20,24 +20,24 @@ MVE_NEI$SCC <- as.factor(MVE_NEI$SCC)
 BC_MVE_NEI <- MVE_NEI[MVE_NEI$fips == '24510',]
 
 # Now create the dataframe summarised for each year
-survey_years <- c(1999, 2002, 2005, 2008)
+Survey_Years <- c(1999, 2002, 2005, 2008)
 
-PM25 <- numeric(length(survey_years))
+PM25_Emissions <- numeric(length(Survey_Years))
 n <- 1
-for (i in survey_years) {
-  PM25[n] <- sum(BC_MVE_NEI$Emissions[BC_MVE_NEI$year == i])
+for (i in Survey_Years) {
+  PM25_Emissions[n] <- sum(BC_MVE_NEI$Emissions[BC_MVE_NEI$year == i])
   n <- n + 1
 }
 
 
-chart_data <- data.frame(cbind(survey_years, PM25))
-chart_data$survey_years <- as.factor(chart_data$survey_years)
+chart_data <- data.frame(cbind(Survey_Years, PM25_Emissions))
+chart_data$Survey_Years <- as.factor(chart_data$Survey_Years)
 
 #Start Plotting!
 
 require(ggplot2)
 options(scipen = 999)
-qplot(survey_years, PM25, data = chart_data) +
+qplot(Survey_Years, PM25_Emissions, data = chart_data) +
   geom_bar(stat = "identity") +
   labs(title = "Decline in PM25 Emissions from On-Road Motor Vehicle Sources: Baltimore City", xlab = "Survey Years", ylab = "PM25 Emissions (tons)")
 
