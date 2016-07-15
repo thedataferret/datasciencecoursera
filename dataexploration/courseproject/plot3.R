@@ -1,3 +1,4 @@
+require(ggplot2)
 
 # Load the RDS files into the global environment
 # -----------------------------------------------
@@ -84,7 +85,7 @@ rm(n, i, survey_years, NEI,
 
 # Start Plotting
 # -----------------------------------------------
-require(ggplot2, grid)
+require(grid)
 
 p <- qplot(survey_years, PM25_emissions, data = chart_data, facets = .~type) +
   geom_bar(stat = "identity")
